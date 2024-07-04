@@ -32,8 +32,8 @@
                     </x-nav-link>
                     <div x-show="stockDropdownOpen" @click.outside="stockDropdownOpen = false" class="absolute mt-2 w-48 rounded-md shadow-lg origin-top-left left-0">
                         <div class="rounded-md ring-1 ring-black ring-opacity-5 bg-white">
-                            <x-dropdown-link href="{{ route('stock-barang.snack') }}">
-                                {{ __('Snack') }}
+                            <x-dropdown-link href="{{ route('stock-barang.sembako') }}">
+                                {{ __('Sembako') }}
                             </x-dropdown-link>
                             <x-dropdown-link href="{{ route('stock-barang.minuman') }} ">
                                 {{ __('Minuman') }}
@@ -185,8 +185,8 @@
                     </svg>
                 </x-responsive-nav-link>
                 <div x-show="stockDropdownOpen" class="mt-2 space-y-1">
-                    <x-responsive-nav-link href="{{ route('stock-barang.snack') }} ">
-                        {{ __('Snack') }}
+                    <x-responsive-nav-link href="{{ route('stock-barang.sembako') }} ">
+                        {{ __('Sembako') }}
                     </x-responsive-nav-link>
                     <x-responsive-nav-link href="{{ route('stock-barang.minuman') }}">
                         {{ __('Minuman') }}
