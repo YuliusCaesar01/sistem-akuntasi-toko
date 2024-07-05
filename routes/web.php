@@ -18,21 +18,24 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 
-    //stock barang
-    Route::get('/stock-barang', function () {
-        return view('stock-barang');
-    })->name('stock-barang');
+  
+    //Stok 
+    Route::get('stock-barang', [ProductController::class, 'showGroceries', 'showGas', 'showDrinks','showCigarettes' ])->name('stock-barang');
 
-    Route::get('/stock-barang/minuman', function () {
-        return view('stock-barang.minuman');
-    })->name('stock-barang.minuman');
+    //Stok Gas
+    Route::get('/stock-barang/gas', [ProductController::class, 'showGas'])->name('stock-barang.gas');
+    
+    //Stock Minuman
+    Route::get('/stock-barang/minuman', [ProductController::class, 'showDrinks'])->name('stock-barang.minuman');
 
-    Route::get('/stock-barang/gas', function () {
-        return view('stock-barang.gas');
-    })->name('stock-barang.gas');
-
+    //Stock Sembako
     Route::get('/stock-barang/sembako', [ProductController::class, 'showGroceries'])->name('stock-barang.sembako');
+    Route::get('/stock-barang/createsembako', [ProductController::class, 'createSembako'])->name('stock-barang.createsembako');
+    Route::post('/stock-barang/store', [ProductController::class, 'storeSembako'])->name('stock-barang.storesembako');
+
+    //Stock Rokok
     Route::get('/stock-barang/rokok', [ProductController::class, 'showCigarettes'])->name('stock-barang.rokok');
+
     //transaksi
     Route::get('/transaksi', function () {
         return view('transaksi');

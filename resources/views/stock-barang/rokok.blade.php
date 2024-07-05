@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Cigarettes') }}
+            {{ __('Rokok') }}
         </h2>
     </x-slot>
 
@@ -22,12 +22,12 @@
                         </thead>
                         <tbody>
                             @foreach($cigarettes as $product)
-                                <tr class="bg-white border-b dark:bg-gray-600 dark:border-gray-700">
-                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{{ $product->id }}</th>
-                                    <td class="px-6 py-4">{{ $product->product_name }}</td>
-                                    <td class="px-6 py-4">{{ 'Rp. ' . number_format ($product->product_price, 0, ',', '.') }}</td>
-                                    <td class="px-6 py-4">{{ $product->product_quantity }}</td>
-                                </tr>
+                            <tr class="bg-white border-b dark:bg-gray-200 dark:border-gray-200">
+                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-dark">{{ $product->id }}</th>
+                                <td class="px-6 py-4 font-medium text-gray-800 whitespace-nowrap dark:text-dark">{{ $product->product_name }}</td>
+                                <td class="px-6 py-4 font-medium text-gray-800 whitespace-nowrap dark:text-dark">{{ 'Rp. ' . number_format ($product->product_price, 0, ',', '.') }}</td>
+                                <td class="px-6 py-4 font-medium text-gray-800 whitespace-nowrap dark:text-dark">{{ $product->product_quantity }}</td>
+                            </tr>
                             @endforeach
                         </tbody>
                     </table>

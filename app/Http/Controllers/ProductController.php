@@ -14,11 +14,27 @@ class ProductController extends Controller
         return view('stock-barang.rokok', compact('cigarettes'));
     }
 
-    // Memanggil stok barang kategori rokok
+    // Memanggil stok barang kategori Sembako
     public function showGroceries()
     {
         $groceries = Product::where('category', 'groceries')->get();
         return view('stock-barang.sembako', compact('groceries'));
+    }
+
+    
+
+    // Memanggil stok barang kategori Minuman
+    public function showDrinks()
+    {
+        $drinks = Product::where('category', 'drinks')->get();
+        return view('stock-barang.minuman', compact('drinks'));
+    }
+
+    // Memanggil stok barang kategori Gas
+    public function showGas()
+    {
+        $gas = Product::where('category', 'gas')->get();
+        return view('stock-barang.gas', compact('gas'));
     }
     
     
