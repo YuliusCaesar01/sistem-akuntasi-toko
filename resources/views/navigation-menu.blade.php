@@ -19,11 +19,11 @@
                         {{ __('Transaksi') }}
                     </x-nav-link>
                     <div class="relative">
-                        <x-nav-link @click="stockDropdownOpen = ! stockDropdownOpen" :active="request()->routeIs('stock-barang')">
-                            {{ __('Stock Barang') }}
-                            <svg class="ms-1 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6" />
-                            </svg>
+                    <x-nav-link @click="stockDropdownOpen = ! stockDropdownOpen" :active="request()->routeIs('stock-barang')">
+                        {{ __('Stock Barang') }}
+                        <svg class="ms-1 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 9l6 6 6-6" />
+                        </svg>
                         </x-nav-link>
                         <!-- Dropdown Menu for Stock Barang -->
                         <div x-show="stockDropdownOpen" @click.away="stockDropdownOpen = false" class="absolute z-50 mt-2 w-48 rounded-md shadow-lg bg-white origin-top">

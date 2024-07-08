@@ -1,37 +1,41 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-dark-100 leading-tight">
             {{ __('Sembako') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="relative overflow-x-auto rounded">
-                @if($groceries->isEmpty())
-                    <p>No groceries found.</p>
-                @else
-                    <table id="groceries-table" class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-900 uppercase bg-dark-50 dark:bg-gray-400 dark:text-gray-50">
-                            <tr>
-                                <th scope="col" class="px-6 py-3">ID</th>
-                                <th scope="col" class="px-6 py-3">Product Name</th>
-                                <th scope="col" class="px-6 py-3">Product Price</th>
-                                <th scope="col" class="px-6 py-3">Product Quantity</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($groceries as $product)
-                            <tr class="bg-white border-b dark:bg-gray-200 dark:border-gray-200">
-                                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-dark">{{ $product->id }}</th>
-                                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-dark">{{ $product->product_name }}</td>
-                                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-dark">{{ 'Rp. ' . number_format($product->product_price, 0, ',', '.') }}</td>
-                                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-dark">{{ $product->product_quantity }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                @endif
+        <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white :bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-4">
+                <div class="p-3 relative border overflow-x-auto shadow-md sm:rounded-lg">
+                    <a href="{{ route('stock-barang.createsembako') }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg mb-4 inline-block">Add New Product</a>
+
+                    @if($groceries->isEmpty())
+                        <p>No groceries found.</p>
+                    @else
+                        <table id="stock-table" class="w-full text-sm text-center rtl:text-right text-gray-500 dark:text-dark-400">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-dark-700 dark:text-dark-400">
+                                <tr>
+                                    <th scope="col" class="px-6 py-4">ID</th>
+                                    <th scope="col" class="px-6 py-4">Product Name</th>
+                                    <th scope="col" class="px-6 py-4">Product Price</th>
+                                    <th scope="col" class="px-6 py-4">Product Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($groceries as $product)
+                                    <tr class="bg-white border-b dark:bg-gray-200 dark:border-gray-200 align-middle">
+                                        <td scope="row" class="px-6 py-4 dark:text-dark align-middle">{{ $product->id }}</td>
+                                        <td class="px-6 py-4 dark:text-dark align-middle">{{ $product->product_name }}</td>
+                                        <td class="px-6 py-4 dark:text-dark align-middle">{{ 'Rp. ' . number_format($product->product_price, 0, ',', '.') }}</td>
+                                        <td class="px-6 py-4 dark:text-dark align-middle">{{ $product->product_quantity }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @endif
+                </div>
             </div>
         </div>
     </div>
@@ -51,13 +55,42 @@
 
     <script>
         $(document).ready(function() {
-            $('#groceries-table').DataTable({
+            $('#stock-table').DataTable({
                 dom: 'Bfrtip',
                 buttons: [
-                    'excel', 'print'
-                ],
-                responsive: true
+                    {
+                        extend: 'csv',
+                        className: 'bg-blue-500 text-white px-4 py-2 rounded-lg dark:bg-blue-700 dark:hover:bg-blue-800'
+                    },
+                    {
+                        extend: 'excel',
+                        className: 'bg-blue-500 text-white px-4 py-2 rounded-lg dark:bg-blue-700 dark:hover:bg-blue-800'
+                    },
+                    {
+                        extend: 'pdf',
+                        className: 'bg-blue-500 text-white px-4 py-2 rounded-lg dark:bg-blue-700 dark:hover:bg-blue-800'
+                    },
+                    {
+                        extend: 'print',
+                        className: 'bg-blue-500 text-white px-4 py-2 rounded-lg dark:bg-blue-700 dark:hover:bg-blue-800',
+                        customize: function(win) {
+                            $(win.document.body)
+                                .css('font-size', '10pt')
+                                .prepend(
+                                    '<div style="display:flex; text-align: center; justify-content: space-between; align-items: center; margin-bottom: 20px;">' +
+                                    '<img src="logopt1.png" style="width: 200px;">' +
+                                    '</div>'
+                                );
+
+                            $(win.document.body).find('table')
+                                .addClass('display')
+                                .css('width', '100%')
+                                .css('font-size', 'inherit');
+                        }
+                    }
+                ]
             });
         });
+        table.buttons().container().appendTo('#stockTable_wrapper.col-md-6:eq(0)');
     </script>
 </x-app-layout>

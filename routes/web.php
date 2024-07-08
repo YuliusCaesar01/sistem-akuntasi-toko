@@ -30,8 +30,11 @@ Route::middleware([
 
     //Stock Sembako
     Route::get('/stock-barang/sembako', [ProductController::class, 'showGroceries'])->name('stock-barang.sembako');
-    Route::get('/stock-barang/createsembako', [ProductController::class, 'createSembako'])->name('stock-barang.createsembako');
-    Route::post('/stock-barang/store', [ProductController::class, 'storeSembako'])->name('stock-barang.storesembako');
+    Route::post('/stock-barang/storesembako', [ProductController::class, 'store'])->name('stock-barang.storesembako');
+    Route::get('/stock-barang/createsembako', function () {
+        return view('stock-barang.createsembako');
+    })->name('stock-barang.createsembako');
+
 
     //Stock Rokok
     Route::get('/stock-barang/rokok', [ProductController::class, 'showCigarettes'])->name('stock-barang.rokok');

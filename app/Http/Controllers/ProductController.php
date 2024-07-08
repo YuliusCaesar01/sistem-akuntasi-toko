@@ -35,5 +35,22 @@ class ProductController extends Controller
         return view('stock-barang.gas', compact('gas'));
     }
     
-    
+    public function store(Request $request)
+    {
+        $request->validate([
+            'category' => 'required|string|max:255',
+            'product_name' => 'required|string|max:255',
+            'product_price' => 'required|numeric',
+            'product_quantity' => 'required|integer',
+        ]);
+
+        Product::create([
+            'category' => $request->category,
+            'product_name' => $request->product_name,
+            'product_price' => $request->product_price,
+            'product_quantity' => $request->product_quantity,
+        ]);
+
+        return redirect()->route('stock-barang.sembako')->with('success', 'Product added successfully!');
+    }
 }
