@@ -21,8 +21,6 @@ class ProductController extends Controller
         return view('stock-barang.sembako', compact('groceries'));
     }
 
-    
-
     // Memanggil stok barang kategori Minuman
     public function showDrinks()
     {
