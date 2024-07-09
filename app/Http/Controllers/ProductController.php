@@ -35,7 +35,8 @@ class ProductController extends Controller
         return view('stock-barang.gas', compact('gas'));
     }
     
-    public function store(Request $request)
+    // Menambah Produk Sembako
+    public function storeSembako(Request $request)
     {
         $request->validate([
             'category' => 'required|string|max:255',
@@ -53,4 +54,216 @@ class ProductController extends Controller
 
         return redirect()->route('stock-barang.sembako')->with('success', 'Product added successfully!');
     }
+
+    // Menambah Stok Produk Sembako
+    public function updateQuantitySembako(Request $request, $id)
+    {
+        $request->validate([
+            'product_quantity' => 'required|integer|min:1',
+        ]);
+    
+        $product = Product::findOrFail($id);
+        $product->product_quantity += $request->product_quantity;
+        $product->save();
+    
+        return redirect()->route('stock-barang.sembako')->with('success', 'Product quantity updated successfully!');
+    }
+
+    // Update Harga Sembako
+    public function updatePrice(Request $request, $id)
+    {
+    $request->validate([
+        'product_price' => 'required|numeric|min:0',
+    ]);
+
+    $product = Product::findOrFail($id);
+    $product->product_price = $request->product_price;
+    $product->save();
+
+    return redirect()->route('stock-barang.sembako')->with('success', 'Product price updated successfully!');
+    }
+
+    // Menghapus Produk Sembako
+    public function deleteSembako($id)
+    {
+    $product = Product::findOrFail($id);
+    $product->delete();
+
+    return redirect()->route('stock-barang.sembako')->with('success', 'Product deleted successfully!');
+    }
+
+     // Menambah Produk Rokok
+     public function storeRokok(Request $request)
+     {
+         $request->validate([
+             'category' => 'required|string|max:255',
+             'product_name' => 'required|string|max:255',
+             'product_price' => 'required|numeric',
+             'product_quantity' => 'required|integer',
+         ]);
+ 
+         Product::create([
+             'category' => $request->category,
+             'product_name' => $request->product_name,
+             'product_price' => $request->product_price,
+             'product_quantity' => $request->product_quantity,
+         ]);
+ 
+         return redirect()->route('stock-barang.rokok')->with('success', 'Product added successfully!');
+     }
+ 
+     // Menambah Stok Produk Rokok
+     public function updateQuantityRokok(Request $request, $id)
+     {
+         $request->validate([
+             'product_quantity' => 'required|integer|min:1',
+         ]);
+     
+         $product = Product::findOrFail($id);
+         $product->product_quantity += $request->product_quantity;
+         $product->save();
+     
+         return redirect()->route('stock-barang.rokok')->with('success', 'Product quantity updated successfully!');
+     }
+
+     // Update Harga Rokok
+    public function updatePriceRokok(Request $request, $id)
+    {
+    $request->validate([
+        'product_price' => 'required|numeric|min:0',
+    ]);
+
+    $product = Product::findOrFail($id);
+    $product->product_price = $request->product_price;
+    $product->save();
+
+    return redirect()->route('stock-barang.rokok')->with('success', 'Product price updated successfully!');
+    }
+ 
+     // Menghapus Produk Rokok
+     public function deleteRokok($id)
+     {
+     $product = Product::findOrFail($id);
+     $product->delete();
+ 
+     return redirect()->route('stock-barang.rokok')->with('success', 'Product deleted successfully!');
+     }
+     
+    // Menambah Produk Minuman
+     public function storeMinuman(Request $request)
+     {
+         $request->validate([
+             'category' => 'required|string|max:255',
+             'product_name' => 'required|string|max:255',
+             'product_price' => 'required|numeric',
+             'product_quantity' => 'required|integer',
+         ]);
+ 
+         Product::create([
+             'category' => $request->category,
+             'product_name' => $request->product_name,
+             'product_price' => $request->product_price,
+             'product_quantity' => $request->product_quantity,
+         ]);
+ 
+         return redirect()->route('stock-barang.minuman')->with('success', 'Product added successfully!');
+     }
+ 
+     // Menambah Stok Produk Minuman
+     public function updateQuantityMinuman(Request $request, $id)
+     {
+         $request->validate([
+             'product_quantity' => 'required|integer|min:1',
+         ]);
+     
+         $product = Product::findOrFail($id);
+         $product->product_quantity += $request->product_quantity;
+         $product->save();
+     
+         return redirect()->route('stock-barang.minuman')->with('success', 'Product quantity updated successfully!');
+     }
+
+     // Update Harga Minuman
+    public function updatePriceMinuman(Request $request, $id)
+    {
+    $request->validate([
+        'product_price' => 'required|numeric|min:0',
+    ]);
+
+    $product = Product::findOrFail($id);
+    $product->product_price = $request->product_price;
+    $product->save();
+
+    return redirect()->route('stock-barang.minuman')->with('success', 'Product price updated successfully!');
+    }
+ 
+     // Menghapus Produk Minuman
+     public function deleteMinuman($id)
+     {
+     $product = Product::findOrFail($id);
+     $product->delete();
+ 
+     return redirect()->route('stock-barang.minuman')->with('success', 'Product deleted successfully!');
+     }
+
+     // Menambah Produk Gas
+     public function storeGas(Request $request)
+     {
+         $request->validate([
+             'category' => 'required|string|max:255',
+             'product_name' => 'required|string|max:255',
+             'product_price' => 'required|numeric',
+             'product_quantity' => 'required|integer',
+         ]);
+ 
+         Product::create([
+             'category' => $request->category,
+             'product_name' => $request->product_name,
+             'product_price' => $request->product_price,
+             'product_quantity' => $request->product_quantity,
+         ]);
+ 
+         return redirect()->route('stock-barang.gas')->with('success', 'Product added successfully!');
+     }
+ 
+     // Menambah Stok Produk Gas
+     public function updateQuantityGas(Request $request, $id)
+     {
+         $request->validate([
+             'product_quantity' => 'required|integer|min:1',
+         ]);
+     
+         $product = Product::findOrFail($id);
+         $product->product_quantity += $request->product_quantity;
+         $product->save();
+     
+         return redirect()->route('stock-barang.gas')->with('success', 'Product quantity updated successfully!');
+     }
+
+     // Update Harga Gas
+    public function updatePriceGas(Request $request, $id)
+    {
+    $request->validate([
+        'product_price' => 'required|numeric|min:0',
+    ]);
+
+    $product = Product::findOrFail($id);
+    $product->product_price = $request->product_price;
+    $product->save();
+
+    return redirect()->route('stock-barang.gas')->with('success', 'Product price updated successfully!');
+    }
+ 
+     // Menghapus Produk Gas
+     public function deleteGas($id)
+     {
+     $product = Product::findOrFail($id);
+     $product->delete();
+ 
+     return redirect()->route('stock-barang.gas')->with('success', 'Product deleted successfully!');
+     }
+
+     
 }
+
+

@@ -9,86 +9,119 @@
         <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white :bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-4">
                 <div class="p-3 relative border overflow-x-auto shadow-md sm:rounded-lg">
+                    <a href="{{ route('stock-barang.creategas') }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg mb-4 inline-block">Add New Product</a>
                     @if($gas->isEmpty())
-                        <p>No gas products found.</p>
+                        <p>No gas found.</p>
                     @else
-                        <table id="gas-table" class="w-full text-sm text-center rtl:text-right text-gray-500 dark:text-dark-400">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-dark-700 dark:text-dark-400">
-                                <tr>
-                                    <th scope="col" class="px-6 py-4">ID</th>
-                                    <th scope="col" class="px-6 py-4">Product Name</th>
-                                    <th scope="col" class="px-6 py-4">Product Price</th>
-                                    <th scope="col" class="px-6 py-4">Product Quantity</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($gas as $product)
-                                <tr class="bg-white border-b dark:bg-gray-200 dark:border-gray-200 align-middle">
-                                    <td scope="row" class="px-6 py-4 dark:text-dark align-middle">{{ $product->id }}</td>
-                                    <td class="px-6 py-4 dark:text-dark align-middle">{{ $product->product_name }}</td>
-                                    <td class="px-6 py-4 dark:text-dark align-middle">{{ 'Rp. ' . number_format($product->product_price, 0, ',', '.') }}</td>
-                                    <td class="px-6 py-4 dark:text-dark align-middle">{{ $product->product_quantity }}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                        <div class="overflow-x-auto">
+                            <table id="stock-table" class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
+                                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Product Name</th>
+                                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Product Price</th>
+                                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Product Quantity</th>
+                                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    @foreach($gas as $product)
+                                        <tr>
+                                            <td scope="row" class="px-6 py-4 text-center text-sm text-gray-500">{{ $loop->iteration }}</td>
+                                            <td class="px-6 py-4 text-center text-sm text-gray-500">{{ $product->product_name }}</td>
+                                            <td class="px-6 py-4 text-center text-sm text-gray-500">{{ 'Rp. ' . number_format($product->product_price, 0, ',', '.') }}</td>
+                                            <td class="px-6 py-4 text-center text-sm text-gray-500">{{ $product->product_quantity }}</td>
+                                            <td class="px-6 py-4 text-center text-sm text-gray-500 flex justify-center space-x-2">
+                                                <button class="bg-green-500 text-white px-4 py-2 rounded-lg" onclick="openModal({{ $product->id }}, '{{ $product->product_name }}')">Add Quantity</button>
+                                                <button class="bg-yellow-500 text-white px-4 py-2 rounded-lg" onclick="openPriceModal({{ $product->id }}, '{{ $product->product_name }}', {{ $product->product_price }})">Edit Price</button>
+                                                <form action="{{ route('stock-barang.deletegas', $product->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this product?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">Delete</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                     @endif
                 </div>
             </div>
         </div>
     </div>
+    <!-- Modal -->
+    <div id="quantityModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md mx-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold">Add Quantity</h2>
+                <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">&times;</button>
+            </div>
+            <form id="quantityForm" action="" method="POST">
+                @csrf
+                <input type="hidden" name="product_id" id="product_id">
+                <div class="mb-4">
+                    <label for="product_name" class="block text-gray-700">Product Name</label>
+                    <input type="text" id="product_name" class="w-full px-3 py-2 border rounded" readonly>
+                </div>
+                <div class="mb-4">
+                    <label for="product_quantity" class="block text-gray-700">Quantity to Add</label>
+                    <input type="number" name="product_quantity" id="product_quantity" class="w-full px-3 py-2 border rounded" min="1" required>
+                </div>
+                <div class="flex justify-end">
+                    <button type="button" onclick="closeModal()" class="bg-gray-500 text-white px-4 py-2 rounded-lg mr-2">Cancel</button>
+                    <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg">Add Quantity</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-    <!-- DataTables CSS and JS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.3.1/css/buttons.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.3.1/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.3.1/js/buttons.flash.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.3.1/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.3.1/js/buttons.print.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
+    <!-- Price Modal -->
+    <div id="priceModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md mx-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-semibold">Edit Price</h2>
+                <button onclick="closePriceModal()" class="text-gray-500 hover:text-gray-700">&times;</button>
+            </div>
+            <form id="priceForm" action="" method="POST">
+                @csrf
+                <input type="hidden" name="product_id" id="price_product_id">
+                <div class="mb-4">
+                    <label for="price_product_name" class="block text-gray-700">Product Name</label>
+                    <input type="text" id="price_product_name" class="w-full px-3 py-2 border rounded" readonly>
+                </div>
+                <div class="mb-4">
+                    <label for="product_price" class="block text-gray-700">Product Price</label>
+                    <input type="number" name="product_price" id="product_price" class="w-full px-3 py-2 border rounded" min="0" required>
+                </div>
+                <div class="flex justify-end">
+                    <button type="button" onclick="closePriceModal()" class="bg-gray-500 text-white px-4 py-2 rounded-lg mr-2">Cancel</button>
+                    <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded-lg">Save Price</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <script>
-        $(document).ready(function() {
-            $('#gas-table').DataTable({
-                dom: 'Bfrtip',
-                buttons: [
-                    {
-                        extend: 'csv',
-                        className: 'bg-blue-500 text-white px-4 py-2 rounded-lg dark:bg-blue-700 dark:hover:bg-blue-800'
-                    },
-                    {
-                        extend: 'excel',
-                        className: 'bg-blue-500 text-white px-4 py-2 rounded-lg dark:bg-blue-700 dark:hover:bg-blue-800'
-                    },
-                    {
-                        extend: 'pdf',
-                        className: 'bg-blue-500 text-white px-4 py-2 rounded-lg dark:bg-blue-700 dark:hover:bg-blue-800'
-                    },
-                    {
-                        extend: 'print',
-                        className: 'bg-blue-500 text-white px-4 py-2 rounded-lg dark:bg-blue-700 dark:hover:bg-blue-800',
-                        customize: function(win) {
-                            $(win.document.body)
-                                .css('font-size', '10pt')
-                                .prepend(
-                                    '<div style="display:flex; text-align: center; justify-content: space-between; align-items: center; margin-bottom: 20px;">' +
-                                    '<img src="logopt1.png" style="width: 200px;">' +
-                                    '</div>'
-                                );
+        function openModal(productId, productName) {
+            document.getElementById('product_id').value = productId;
+            document.getElementById('product_name').value = productName;
+            document.getElementById('quantityForm').action = '/stock-barang/update-quantity-gas/' + productId;
+            document.getElementById('quantityModal').classList.remove('hidden');
+        }
 
-                            $(win.document.body).find('table')
-                                .addClass('display')
-                                .css('width', '100%')
-                                .css('font-size', 'inherit');
-                        }
-                    }
-                ]
-            });
-        });
-        table.buttons().container().appendTo('#gasTable_wrapper.col-md-6:eq(0)');
+        function closeModal() {
+            document.getElementById('quantityModal').classList.add('hidden');
+        }
+        function openPriceModal(productId, productName, productPrice) {
+            document.getElementById('price_product_id').value = productId;
+            document.getElementById('price_product_name').value = productName;
+            document.getElementById('product_price').value = productPrice;
+            document.getElementById('priceForm').action = '/stock-barang/update-price-gas/' + productId;
+            document.getElementById('priceModal').classList.remove('hidden');
+        }
+
+        function closePriceModal() {
+            document.getElementById('priceModal').classList.add('hidden');
+        }
     </script>
 </x-app-layout>

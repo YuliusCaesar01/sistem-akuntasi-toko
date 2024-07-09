@@ -20,5 +20,5 @@ class Product extends Model
         'product_quantity',
     ];
 
-    // You can define other model properties and methods as needed
+    
 }
