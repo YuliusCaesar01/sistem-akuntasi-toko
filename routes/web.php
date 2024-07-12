@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PembelianController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -63,14 +64,15 @@ Route::middleware([
     Route::post('/stock-barang/update-price-rokok/{id}', [ProductController::class, 'updatePriceRokok'])->name('stock-barang.updatePriceRokok');
 
     //transaksi
-    Route::get('/transaksi', function () {
-        return view('transaksi');
-    })->name('transaksi');
-
-    Route::get('/transaksi/create', function () {
-        return view('transaksi.create');
-    })->name('transaksicreate');
-
+    Route::resource('transaksi', PembelianController::class, )->names([
+        'index' => 'transaksi',
+        'create' => 'transaksi.create',
+        'store' => 'transaksi.store',
+        'show' => 'transaksi.show',
+        'edit' => 'transaksi.edit',
+        'update' => 'transaksi.update',
+        'destroy' => 'transaksi.destroy',
+    ]);
 
 });
 

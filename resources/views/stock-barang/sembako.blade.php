@@ -18,6 +18,7 @@
                                 <thead class="bg-gray-50">
                                     <tr>
                                         <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
+                                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Product Code</th>
                                         <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Product Name</th>
                                         <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Product Price</th>
                                         <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Product Quantity</th>
@@ -28,6 +29,7 @@
                                     @foreach($groceries as $index => $product)
                                         <tr>
                                             <td scope="row" class="px-6 py-4 text-center text-sm text-gray-500">{{ $loop->iteration }}</td>
+                                            <td class="px-6 py-4 text-center text-sm text-gray-500">{{ $product->product_code }}</td>
                                             <td class="px-6 py-4 text-center text-sm text-gray-500">{{ $product->product_name }}</td>
                                             <td class="px-6 py-4 text-center text-sm text-gray-500">{{ 'Rp. ' . number_format($product->product_price, 0, ',', '.') }}</td>
                                             <td class="px-6 py-4 text-center text-sm text-gray-500">{{ $product->product_quantity }}</td>

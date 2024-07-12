@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
@@ -44,16 +45,30 @@ class ProductController extends Controller
             'product_price' => 'required|numeric',
             'product_quantity' => 'required|integer',
         ]);
-
+    
+        // Get the highest product code from the database
+        $lastProduct = Product::orderBy('product_code', 'desc')->first();
+        $lastCode = $lastProduct ? $lastProduct->product_code : 'S-000';
+    
+        // Extract the numeric part and increment it
+        $lastCodeNumber = intval(substr($lastCode, 2));
+        $nextCodeNumber = str_pad($lastCodeNumber + 1, 3, '0', STR_PAD_LEFT);
+    
+        // Generate the new product code
+        $newProductCode = 'S-' . $nextCodeNumber;
+    
         Product::create([
             'category' => $request->category,
             'product_name' => $request->product_name,
             'product_price' => $request->product_price,
             'product_quantity' => $request->product_quantity,
+            'product_code' => $newProductCode, // Include the generated product code
         ]);
-
+    
         return redirect()->route('stock-barang.sembako')->with('success', 'Product added successfully!');
     }
+    
+
 
     // Menambah Stok Produk Sembako
     public function updateQuantitySembako(Request $request, $id)
@@ -94,23 +109,38 @@ class ProductController extends Controller
 
      // Menambah Produk Rokok
      public function storeRokok(Request $request)
-     {
-         $request->validate([
-             'category' => 'required|string|max:255',
-             'product_name' => 'required|string|max:255',
-             'product_price' => 'required|numeric',
-             'product_quantity' => 'required|integer',
-         ]);
- 
-         Product::create([
-             'category' => $request->category,
-             'product_name' => $request->product_name,
-             'product_price' => $request->product_price,
-             'product_quantity' => $request->product_quantity,
-         ]);
- 
-         return redirect()->route('stock-barang.rokok')->with('success', 'Product added successfully!');
-     }
+{
+    $request->validate([
+        'category' => 'required|string|max:255',
+        'product_name' => 'required|string|max:255',
+        'product_price' => 'required|numeric',
+        'product_quantity' => 'required|integer',
+    ]);
+
+    // Get the highest product code for 'R-' from the database
+    $lastProduct = Product::where('product_code', 'like', 'R-%')
+                          ->orderBy('product_code', 'desc')
+                          ->first();
+    $lastCode = $lastProduct ? $lastProduct->product_code : 'R-000';
+
+    // Extract the numeric part and increment it
+    $lastCodeNumber = intval(substr($lastCode, 2));
+    $nextCodeNumber = str_pad($lastCodeNumber + 1, 3, '0', STR_PAD_LEFT);
+
+    // Generate the new product code
+    $newProductCode = 'R-' . $nextCodeNumber;
+
+    Product::create([
+        'category' => $request->category,
+        'product_name' => $request->product_name,
+        'product_price' => $request->product_price,
+        'product_quantity' => $request->product_quantity,
+        'product_code' => $newProductCode, 
+    ]);
+
+    return redirect()->route('stock-barang.rokok')->with('success', 'Product added successfully!');
+}
+
  
      // Menambah Stok Produk Rokok
      public function updateQuantityRokok(Request $request, $id)
@@ -150,24 +180,39 @@ class ProductController extends Controller
      }
      
     // Menambah Produk Minuman
-     public function storeMinuman(Request $request)
-     {
-         $request->validate([
-             'category' => 'required|string|max:255',
-             'product_name' => 'required|string|max:255',
-             'product_price' => 'required|numeric',
-             'product_quantity' => 'required|integer',
-         ]);
- 
-         Product::create([
-             'category' => $request->category,
-             'product_name' => $request->product_name,
-             'product_price' => $request->product_price,
-             'product_quantity' => $request->product_quantity,
-         ]);
- 
-         return redirect()->route('stock-barang.minuman')->with('success', 'Product added successfully!');
-     }
+    public function storeMinuman(Request $request)
+{
+    $request->validate([
+        'category' => 'required|string|max:255',
+        'product_name' => 'required|string|max:255',
+        'product_price' => 'required|numeric',
+        'product_quantity' => 'required|integer',
+    ]);
+
+    // Get the highest product code for 'M-' from the database
+    $lastProduct = Product::where('product_code', 'like', 'M-%')
+                          ->orderBy('product_code', 'desc')
+                          ->first();
+    $lastCode = $lastProduct ? $lastProduct->product_code : 'M-000';
+
+    // Extract the numeric part and increment it
+    $lastCodeNumber = intval(substr($lastCode, 2));
+    $nextCodeNumber = str_pad($lastCodeNumber + 1, 3, '0', STR_PAD_LEFT);
+
+    // Generate the new product code
+    $newProductCode = 'M-' . $nextCodeNumber;
+
+    Product::create([
+        'category' => $request->category,
+        'product_name' => $request->product_name,
+        'product_price' => $request->product_price,
+        'product_quantity' => $request->product_quantity,
+        'product_code' => $newProductCode, // Include the generated product code
+    ]);
+
+    return redirect()->route('stock-barang.minuman')->with('success', 'Product added successfully!');
+}
+
  
      // Menambah Stok Produk Minuman
      public function updateQuantityMinuman(Request $request, $id)
@@ -208,23 +253,38 @@ class ProductController extends Controller
 
      // Menambah Produk Gas
      public function storeGas(Request $request)
-     {
-         $request->validate([
-             'category' => 'required|string|max:255',
-             'product_name' => 'required|string|max:255',
-             'product_price' => 'required|numeric',
-             'product_quantity' => 'required|integer',
-         ]);
- 
-         Product::create([
-             'category' => $request->category,
-             'product_name' => $request->product_name,
-             'product_price' => $request->product_price,
-             'product_quantity' => $request->product_quantity,
-         ]);
- 
-         return redirect()->route('stock-barang.gas')->with('success', 'Product added successfully!');
-     }
+{
+    $request->validate([
+        'category' => 'required|string|max:255',
+        'product_name' => 'required|string|max:255',
+        'product_price' => 'required|numeric',
+        'product_quantity' => 'required|integer',
+    ]);
+
+    // Get the highest product code for 'G-' from the database
+    $lastProduct = Product::where('product_code', 'like', 'G-%')
+                          ->orderBy('product_code', 'desc')
+                          ->first();
+    $lastCode = $lastProduct ? $lastProduct->product_code : 'G-000';
+
+    // Extract the numeric part and increment it
+    $lastCodeNumber = intval(substr($lastCode, 2));
+    $nextCodeNumber = str_pad($lastCodeNumber + 1, 3, '0', STR_PAD_LEFT);
+
+    // Generate the new product code
+    $newProductCode = 'G-' . $nextCodeNumber;
+
+    Product::create([
+        'category' => $request->category,
+        'product_name' => $request->product_name,
+        'product_price' => $request->product_price,
+        'product_quantity' => $request->product_quantity,
+        'product_code' => $newProductCode, // Include the generated product code
+    ]);
+
+    return redirect()->route('stock-barang.gas')->with('success', 'Product added successfully!');
+}
+
  
      // Menambah Stok Produk Gas
      public function updateQuantityGas(Request $request, $id)

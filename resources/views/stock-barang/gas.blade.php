@@ -18,6 +18,7 @@
                                 <thead class="bg-gray-50">
                                     <tr>
                                         <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
+                                        <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Product Code</th>
                                         <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Product Name</th>
                                         <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Product Price</th>
                                         <th scope="col" class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Product Quantity</th>
@@ -28,6 +29,7 @@
                                     @foreach($gas as $product)
                                         <tr>
                                             <td scope="row" class="px-6 py-4 text-center text-sm text-gray-500">{{ $loop->iteration }}</td>
+                                            <td class="px-6 py-4 text-center text-sm text-gray-500">{{ $product->product_code }}</td>
                                             <td class="px-6 py-4 text-center text-sm text-gray-500">{{ $product->product_name }}</td>
                                             <td class="px-6 py-4 text-center text-sm text-gray-500">{{ 'Rp. ' . number_format($product->product_price, 0, ',', '.') }}</td>
                                             <td class="px-6 py-4 text-center text-sm text-gray-500">{{ $product->product_quantity }}</td>
@@ -50,7 +52,7 @@
         </div>
     </div>
     <!-- Modal -->
-    <div id="quantityModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div id="quantityModal" class="fixed inset-0 items-center justify-center bg-black bg-opacity-50 hidden">
         <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md mx-auto">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-semibold">Add Quantity</h2>
@@ -103,25 +105,35 @@
 
     <script>
         function openModal(productId, productName) {
-            document.getElementById('product_id').value = productId;
-            document.getElementById('product_name').value = productName;
-            document.getElementById('quantityForm').action = '/stock-barang/update-quantity-gas/' + productId;
-            document.getElementById('quantityModal').classList.remove('hidden');
-        }
+        document.getElementById('product_id').value = productId;
+        document.getElementById('product_name').value = productName;
+        document.getElementById('quantityForm').action = '/stock-barang/update-quantity-gas/' + productId;
+        let modal = document.getElementById('quantityModal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
 
-        function closeModal() {
-            document.getElementById('quantityModal').classList.add('hidden');
-        }
-        function openPriceModal(productId, productName, productPrice) {
-            document.getElementById('price_product_id').value = productId;
-            document.getElementById('price_product_name').value = productName;
-            document.getElementById('product_price').value = productPrice;
-            document.getElementById('priceForm').action = '/stock-barang/update-price-gas/' + productId;
-            document.getElementById('priceModal').classList.remove('hidden');
-        }
+    function closeModal() {
+        let modal = document.getElementById('quantityModal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
 
-        function closePriceModal() {
-            document.getElementById('priceModal').classList.add('hidden');
-        }
+    function openPriceModal(productId, productName, productPrice) {
+        document.getElementById('price_product_id').value = productId;
+        document.getElementById('price_product_name').value = productName;
+        document.getElementById('product_price').value = productPrice;
+        document.getElementById('priceForm').action = '/stock-barang/update-price-gas/' + productId;
+        let modal = document.getElementById('priceModal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+
+    function closePriceModal() {
+        let modal = document.getElementById('priceModal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+    }
+
     </script>
 </x-app-layout>

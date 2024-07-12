@@ -15,6 +15,7 @@ class Product extends Model
     // Define the attributes that are mass assignable
     protected $fillable = [
         'category',
+        'product_code',
         'product_name',
         'product_price',
         'product_quantity',
