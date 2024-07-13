@@ -20,6 +20,17 @@
                             <div class="w-1/2 mr-2">
                                 <label for="product_id" class="block text-gray-700">Product</label>
                                 <select name="products[0][product_id]" class="product-select w-full border-gray-300 rounded-md" required>
+                                    <option value="">Select a Category</option>
+                                    @foreach($products as $product)
+                                        <option value="{{ $product->id }}" data-category="{{ $product->category }}">
+                                            {{ $product->product_name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="w-1/2 mr-2">
+                                <label for="product_id" class="block text-gray-700">Product</label>
+                                <select name="products[0][product_id]" class="product-select w-full border-gray-300 rounded-md" required>
                                     <option value="">Select a Product</option>
                                     @foreach($products as $product)
                                         <option value="{{ $product->id }}" data-category="{{ $product->category }}" data-product_name="{{ $product->product_name }}" data-product_price="{{ $product->product_price }}">

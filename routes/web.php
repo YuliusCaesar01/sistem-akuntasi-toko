@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\PembelianController;
 
 Route::get('/', function () {
@@ -73,6 +74,12 @@ Route::middleware([
         'update' => 'transaksi.update',
         'destroy' => 'transaksi.destroy',
     ]);
+
+    Route::resource('purchases', PurchaseController::class)->names([
+        'index' => 'purchases.index',
+        'create' => 'purchases.create',
+    ]);
+    
 
 });
 

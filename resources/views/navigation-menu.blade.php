@@ -15,7 +15,7 @@
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link href="{{ route('transaksi') }}" :active="request()->routeIs('transaksi')">
+                    <x-nav-link href="{{ route('purchases.index') }}" :active="request()->routeIs('purchases')">
                         {{ __('Transaksi') }}
                     </x-nav-link>
                     <div class="relative">
@@ -155,7 +155,7 @@
             <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('transaksi') }}" :active="request()->routeIs('transaksi')">
+            <x-responsive-nav-link href="{{ route('purchases.index') }}" :active="request()->routeIs('purchases')">
                 {{ __('Transaksi') }}
             </x-responsive-nav-link>
             <!-- Responsive Stock Barang Dropdown -->
