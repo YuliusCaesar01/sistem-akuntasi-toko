@@ -1,15 +1,15 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-dark-100 leading-tight">
-            {{ __('Purchases') }}
+            {{ __('Transaksi') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-4">
+            
                 <div class="p-3 relative border overflow-x-auto shadow-md sm:rounded-lg">
-                    <a href="{{ route('purchases.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg mb-4 inline-block">Add New Purchase</a>
+                    <a href="{{ route('purchases.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg mb-4 inline-block">Transaksi Baru</a>
                     @if($purchases->isEmpty())
                         <p>No purchases found.</p>
                     @else
@@ -50,7 +50,7 @@
                         </div>
                     @endif
                 </div>
-            </div>
+            
         </div>
     </div>
 </x-app-layout>

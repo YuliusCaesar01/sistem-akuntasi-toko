@@ -78,6 +78,7 @@ Route::middleware([
     Route::resource('purchases', PurchaseController::class)->names([
         'index' => 'purchases.index',
         'create' => 'purchases.create',
+        'destroy' => 'purchase.destroy',
     ]);
     
 
