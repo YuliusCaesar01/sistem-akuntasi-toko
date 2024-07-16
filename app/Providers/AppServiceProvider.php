@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Livewire\Livewire;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -17,8 +18,10 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
+    public function boot()
     {
-        //
+        Livewire::component('sidebar-menu', \App\Http\Livewire\SidebarMenu::class);
     }
+
+    
 }

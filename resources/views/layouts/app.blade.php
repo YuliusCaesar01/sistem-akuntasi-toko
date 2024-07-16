@@ -6,7 +6,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
-
+    @livewireStyles
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
@@ -16,34 +16,43 @@
 
     <!-- Alpine.js -->
     <script src="//unpkg.com/alpinejs" defer></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/alpinejs" defer></script> -->
-
-    <!-- Styles -->
-    @livewireStyles
 </head>
 <body class="font-sans antialiased">
     <x-banner />
 
-    <div class="min-h-screen bg-gray-100">
-        @livewire('navigation-menu')
+    <div class="min-h-screen bg-gray-100 flex flex-col">
+        <!-- Navbar -->
+        <header class="bg-white shadow">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                @livewire('navigation-menu')
+            </div>
+        </header>
 
-        <!-- Page Heading -->
-        @if (isset($header))
-            <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
-        @endif
+        <div class="flex flex-1">
+            <!-- Sidebar -->
+            <aside class="w-64 bg-white shadow-md">
+                @livewire('sidebar-menu')
+            </aside>
 
-        <!-- Page Content -->
-        <main>
-            {{ $slot }}
-        </main>
+            <div class="flex-1">
+                <!-- Page Heading -->
+                @if (isset($header))
+                    <header class="bg-white shadow">
+                        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                            {{ $header }}
+                        </div>
+                    </header>
+                @endif
+
+                <!-- Page Content -->
+                <main>
+                    {{ $slot }}
+                </main>
+            </div>
+        </div>
     </div>
 
     @stack('modals')
-
     @livewireScripts
 
     <!-- DataTables CSS and JS -->
@@ -98,6 +107,6 @@
             });
         });
     </script>
-
+    @livewireScripts
 </body>
 </html>
