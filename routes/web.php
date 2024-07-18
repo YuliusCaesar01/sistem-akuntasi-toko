@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\PembelianController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -14,73 +15,66 @@ Route::middleware([
     'verified',
 ])->group(function () {
 
-    // Dashboard
+    // dashboard
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
 
-    // Stock Routes
-    Route::prefix('stock-barang')->name('stock-barang.')->group(function () {
-        Route::get('/', [ProductController::class, 'index'])->name('index');
+  
+    //Stok 
+    Route::get('/stock-barang', [ProductController::class, 'index'])->name('stock-barang.index');
 
-        // Gas Routes
-        Route::prefix('gas')->name('gas.')->group(function () {
-            Route::get('/', [ProductController::class, 'showGas'])->name('index');
-            Route::post('/store', [ProductController::class, 'storeGas'])->name('store');
-            Route::get('/create', function () {
-                return view('stock-barang.creategas');
-            })->name('create');
-            Route::post('/update-quantity/{id}', [ProductController::class, 'updateQuantityGas'])->name('updateQuantity');
-            Route::delete('/delete/{id}', [ProductController::class, 'deleteGas'])->name('delete');
-            Route::post('/update-price/{id}', [ProductController::class, 'updatePriceGas'])->name('updatePrice');
-        });
+    //Stok Gas
+    Route::get('/stock-barang/gas', [ProductController::class, 'showGas'])->name('stock-barang.gas');
+    Route::post('/stock-barang/storegas', [ProductController::class, 'storeGas'])->name('stock-barang.storegas');
+    Route::get('/stock-barang/creategas', function () {
+        return view('stock-barang.creategas');
+    })->name('stock-barang.creategas');
+    Route::post('/stock-barang/update-quantity-gas/{id}', [ProductController::class, 'updateQuantityGas'])->name('stock-barang.updateQuantityGas');
+    Route::delete('/stock-barang/deletegas/{id}', [ProductController::class, 'deleteGas'])->name('stock-barang.deletegas');
+    Route::post('/stock-barang/update-price-gas/{id}', [ProductController::class, 'updatePriceGas'])->name('stock-barang.updatePriceGas');
 
-        // Drinks Routes
-        Route::prefix('minuman')->name('minuman.')->group(function () {
-            Route::get('/', [ProductController::class, 'showDrinks'])->name('index');
-            Route::post('/store', [ProductController::class, 'storeMinuman'])->name('store');
-            Route::get('/create', function () {
-                return view('stock-barang.createminuman');
-            })->name('create');
-            Route::post('/update-quantity/{id}', [ProductController::class, 'updateQuantityMinuman'])->name('updateQuantity');
-            Route::delete('/delete/{id}', [ProductController::class, 'deleteMinuman'])->name('delete');
-            Route::post('/update-price/{id}', [ProductController::class, 'updatePriceMinuman'])->name('updatePrice');
-        });
+    //Stock Minuman
+    Route::get('/stock-barang/minuman', [ProductController::class, 'showDrinks'])->name('stock-barang.minuman');
+    Route::post('/stock-barang/storeminuman', [ProductController::class, 'storeMinuman'])->name('stock-barang.storeminuman');
+    Route::get('/stock-barang/createminuman', function () {
+        return view('stock-barang.createminuman');
+    })->name('stock-barang.createminuman');
+    Route::post('/stock-barang/update-quantity-minuman/{id}', [ProductController::class, 'updateQuantityMinuman'])->name('stock-barang.updateQuantityMinuman');
+    Route::delete('/stock-barang/deleteminuman/{id}', [ProductController::class, 'deleteMinuman'])->name('stock-barang.deleteminuman');
+    Route::post('/stock-barang/update-price-minuman/{id}', [ProductController::class, 'updatePriceMinuman'])->name('stock-barang.updatePriceMinuman');
 
-        // Groceries Routes
-        Route::prefix('sembako')->name('sembako.')->group(function () {
-            Route::get('/', [ProductController::class, 'showGroceries'])->name('index');
-            Route::post('/store', [ProductController::class, 'storeSembako'])->name('store');
-            Route::get('/create', function () {
-                return view('stock-barang.createsembako');
-            })->name('create');
-            Route::post('/update-quantity/{id}', [ProductController::class, 'updateQuantitySembako'])->name('updateQuantity');
-            Route::delete('/delete/{id}', [ProductController::class, 'deleteSembako'])->name('delete');
-            Route::post('/update-price/{id}', [ProductController::class, 'updatePrice'])->name('updatePrice');
-        });
+    //Stock Sembako
+    Route::get('/stock-barang/sembako', [ProductController::class, 'showGroceries'])->name('stock-barang.sembako');
+    Route::post('/stock-barang/storesembako', [ProductController::class, 'storeSembako'])->name('stock-barang.storesembako');
+    Route::get('/stock-barang/createsembako', function () {
+        return view('stock-barang.createsembako');
+    })->name('stock-barang.createsembako');
+    Route::post('/stock-barang/update-quantity-sembako/{id}', [ProductController::class, 'updateQuantitySembako'])->name('stock-barang.updateQuantitySembako');
+    Route::delete('/stock-barang/deletesembako/{id}', [ProductController::class, 'deleteSembako'])->name('stock-barang.deletesembako');
+    Route::post('/stock-barang/update-price-sembako/{id}', [ProductController::class, 'updatePrice'])->name('stock-barang.updatePriceSembako');
 
-        // Cigarettes Routes
-        Route::prefix('rokok')->name('rokok.')->group(function () {
-            Route::get('/', [ProductController::class, 'showCigarettes'])->name('index');
-            Route::post('/store', [ProductController::class, 'storeRokok'])->name('store');
-            Route::get('/create', function () {
-                return view('stock-barang.createrokok');
-            })->name('create');
-            Route::post('/update-quantity/{id}', [ProductController::class, 'updateQuantityRokok'])->name('updateQuantity');
-            Route::delete('/delete/{id}', [ProductController::class, 'deleteRokok'])->name('delete');
-            Route::post('/update-price/{id}', [ProductController::class, 'updatePriceRokok'])->name('updatePrice');
-        });
-    });
+    //Stock Rokok
+    Route::get('/stock-barang/rokok', [ProductController::class, 'showCigarettes'])->name('stock-barang.rokok');
+    Route::post('/stock-barang/storerokok', [ProductController::class, 'storeRokok'])->name('stock-barang.storerokok');
+    Route::get('/stock-barang/createrokok', function () {
+        return view('stock-barang.createrokok');
+    })->name('stock-barang.createrokok');
+    Route::post('/stock-barang/update-quantity-rokok/{id}', [ProductController::class, 'updateQuantityRokok'])->name('stock-barang.updateQuantityRokok');
+    Route::delete('/stock-barang/deleterokok/{id}', [ProductController::class, 'deleteRokok'])->name('stock-barang.deleterokok');
+    Route::post('/stock-barang/update-price-rokok/{id}', [ProductController::class, 'updatePriceRokok'])->name('stock-barang.updatePriceRokok');
 
-    // Transaction Routes
+    // Transaksi
     Route::resource('purchases', PurchaseController::class)->names([
         'index' => 'purchases.index',
         'create' => 'purchases.create',
         'destroy' => 'purchases.destroy',
     ]);
 
-    // Report Routes
+    // Laporan
     Route::get('/laporan', function () {
         return view('laporan');
     })->name('laporan');
+    
+
 });

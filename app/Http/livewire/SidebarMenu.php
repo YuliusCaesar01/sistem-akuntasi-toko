@@ -11,3 +11,4 @@ class SidebarMenu extends Component
         return view('livewire.sidebar-menu');
     }
 }
+

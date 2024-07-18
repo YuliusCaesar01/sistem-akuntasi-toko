@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    public function index()
+    {
+        $products = Product::all();
+        return view('stock-barang.index', compact('products'));
+    }
     // Memanggil stok barang kategori rokok
     public function showCigarettes()
     {
