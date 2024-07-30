@@ -9,12 +9,12 @@ class Purchase extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'invoice',
-        'product_code',
-        'quantity',
-        'total_price',
-    ];
+    protected $fillable = ['invoice', 'product_code', 'quantity', 'total_price'];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_code', 'product_code');
+    }
 
     public function invoice()
     {

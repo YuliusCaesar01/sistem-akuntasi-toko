@@ -69,6 +69,7 @@ Route::middleware([
         'index' => 'purchases.index',
         'create' => 'purchases.create',
         'destroy' => 'purchases.destroy',
+        'show' => 'purchases.show',
     ]);
 
     // Laporan

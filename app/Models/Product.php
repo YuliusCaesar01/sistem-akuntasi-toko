@@ -9,17 +9,14 @@ class Product extends Model
 {
     use HasFactory;
 
-    // Define the table associated with the model (optional if the table name matches the plural form of the model name)
-    protected $table = 'products';
+    protected $primaryKey = 'product_code'; // Assuming product_code is the primary key
+    public $incrementing = false; // If product_code is not an integer
+    protected $keyType = 'string'; // If product_code is a string
 
-    // Define the attributes that are mass assignable
-    protected $fillable = [
-        'category',
-        'product_code',
-        'product_name',
-        'product_price',
-        'product_quantity',
-    ];
+    protected $fillable = ['product_code', 'product_name', 'product_price', 'product_quantity'];
 
-    
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class, 'product_code', 'product_code');
+    }
 }

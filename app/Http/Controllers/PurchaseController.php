@@ -83,10 +83,9 @@ class PurchaseController extends Controller
 
     public function show($id)
     {
-        $purchase = Purchase::findOrFail($id);
+        $purchase = Purchase::with('product')->findOrFail($id);
         return view('purchases.show', compact('purchase'));
     }
-
     public function destroy($id)
     {
         DB::transaction(function () use ($id) {
